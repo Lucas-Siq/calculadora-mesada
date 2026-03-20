@@ -5,127 +5,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculadora de Mesada</title>
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #1e1e1e;
-            color: #fff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .calculator {
-            background-color: #2c2c2c;
-            padding: 20px;
-            border-radius: 20px;
-            box-shadow: 0 15px 25px rgba(0,0,0,0.5), inset 0 2px 2px rgba(255,255,255,0.1);
-            width: 340px;
-        }
-        .tabs {
-            display: flex;
-            margin-bottom: 20px;
-            background: #1e1e1e;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-        .tab-btn {
-            flex: 1;
-            padding: 12px;
-            background: transparent;
-            color: #888;
-            border: none;
-            cursor: pointer;
-            font-size: 18px;
-            font-weight: bold;
-            transition: 0.3s;
-        }
-        .tab-btn.active {
-            background: #ff9500;
-            color: #fff;
-        }
-        .screen {
-            background-color: #9ea791;
-            color: #111;
-            padding: 20px;
-            text-align: right;
-            border-radius: 10px;
-            font-size: 32px;
-            font-family: 'Courier New', Courier, monospace;
-            margin-bottom: 20px;
-            box-shadow: inset 0 3px 8px rgba(0,0,0,0.3);
-        }
-        .screen small {
-            display: block;
-            font-size: 14px;
-            color: #333;
-            margin-bottom: 5px;
-            font-family: 'Segoe UI', sans-serif;
-            font-weight: bold;
-        }
-        .input-group {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 10px;
-        }
-        input[type="number"], input[type="text"] {
-            flex: 1;
-            padding: 12px;
-            border-radius: 8px;
-            border: none;
-            background: #444;
-            color: white;
-            font-size: 16px;
-            width: 100%;
-            box-sizing: border-box;
-        }
-        input::placeholder {
-            color: #aaa;
-        }
-        button.action-btn {
-            width: 100%;
-            padding: 12px;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-bottom: 15px;
-            transition: 0.2s;
-            text-transform: uppercase;
-        }
+        /* O CSS continua exatamente igual ao anterior */
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #1e1e1e; color: #fff; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .calculator { background-color: #2c2c2c; padding: 20px; border-radius: 20px; box-shadow: 0 15px 25px rgba(0,0,0,0.5), inset 0 2px 2px rgba(255,255,255,0.1); width: 340px; }
+        .tabs { display: flex; margin-bottom: 20px; background: #1e1e1e; border-radius: 10px; overflow: hidden; }
+        .tab-btn { flex: 1; padding: 12px; background: transparent; color: #888; border: none; cursor: pointer; font-size: 18px; font-weight: bold; transition: 0.3s; }
+        .tab-btn.active { background: #ff9500; color: #fff; }
+        .screen { background-color: #9ea791; color: #111; padding: 20px; text-align: right; border-radius: 10px; font-size: 32px; font-family: 'Courier New', Courier, monospace; margin-bottom: 20px; box-shadow: inset 0 3px 8px rgba(0,0,0,0.3); }
+        .screen small { display: block; font-size: 14px; color: #333; margin-bottom: 5px; font-family: 'Segoe UI', sans-serif; font-weight: bold; }
+        .input-group { display: flex; gap: 10px; margin-bottom: 10px; }
+        input[type="number"], input[type="text"] { flex: 1; padding: 12px; border-radius: 8px; border: none; background: #444; color: white; font-size: 16px; width: 100%; box-sizing: border-box; }
+        input::placeholder { color: #aaa; }
+        button.action-btn { width: 100%; padding: 12px; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; margin-bottom: 15px; transition: 0.2s; text-transform: uppercase; }
         .btn-set { background-color: #34c759; color: white; flex: 0.5; }
         .btn-discount { background-color: #ff3b30; color: white; margin-top: 5px; }
         .btn-reset { background-color: #555; color: #ccc; margin-top: 20px; font-size: 14px; }
         button.action-btn:active { opacity: 0.7; transform: scale(0.98); }
-        
-        .history {
-            background: #1e1e1e;
-            border-radius: 8px;
-            padding: 10px;
-            font-size: 13px;
-            color: #ccc;
-            height: 90px;
-            overflow-y: auto;
-            margin-top: 10px;
-        }
-        .history-item {
-            display: flex;
-            justify-content: space-between;
-            border-bottom: 1px solid #333;
-            padding: 6px 0;
-        }
+        .history { background: #1e1e1e; border-radius: 8px; padding: 10px; font-size: 13px; color: #ccc; height: 90px; overflow-y: auto; margin-top: 10px; }
+        .history-item { display: flex; justify-content: space-between; border-bottom: 1px solid #333; padding: 6px 0; }
         .history-item:last-child { border-bottom: none; }
         .text-red { color: #ff6b6b; }
+        #loading { text-align: center; color: #ff9500; font-size: 14px; display: none; margin-bottom: 10px; }
     </style>
 </head>
 <body>
 
 <div class="calculator">
     <div class="tabs">
-        <button class="tab-btn active" id="tab-be" onclick="switchTab('be')">Bê</button>
-        <button class="tab-btn" id="tab-mari" onclick="switchTab('mari')">Mari</button>
+        <button class="tab-btn active" id="tab-be">Bê</button>
+        <button class="tab-btn" id="tab-mari">Mari</button>
     </div>
+
+    <div id="loading">Sincronizando...</div>
 
     <div class="screen">
         <small>SALDO ATUAL</small>
@@ -134,7 +45,7 @@
 
     <div class="input-group">
         <input type="number" id="input-mesada" placeholder="Mesada Inicial (R$)">
-        <button class="action-btn btn-set" onclick="setMesada()">Gravar</button>
+        <button class="action-btn btn-set" id="btn-gravar">Gravar</button>
     </div>
 
     <div style="margin-top: 20px; border-top: 1px solid #444; padding-top: 15px;">
@@ -142,48 +53,80 @@
             <input type="text" id="input-motivo" placeholder="Motivo (ex: lanche)">
             <input type="number" id="input-desconto" placeholder="Desconto (R$)" style="flex: 0.6;">
         </div>
-        <button class="action-btn btn-discount" onclick="addDesconto()">Subtrair Desconto</button>
+        <button class="action-btn btn-discount" id="btn-subtrair">Subtrair Desconto</button>
     </div>
 
     <div class="history" id="history-list">
         </div>
 
-    <button class="action-btn btn-reset" onclick="resetMesada()">Zerar Mês</button>
+    <button class="action-btn btn-reset" id="btn-zerar">Zerar Mês</button>
 </div>
 
-<script>
-    let currentChild = 'be';
-    
-    // Inicializa a estrutura de dados se não existir no navegador
-    const initData = () => {
-        if (!localStorage.getItem('mesada_be')) {
-            localStorage.setItem('mesada_be', JSON.stringify({ total: 0, descontos: [] }));
-        }
-        if (!localStorage.getItem('mesada_mari')) {
-            localStorage.setItem('mesada_mari', JSON.stringify({ total: 0, descontos: [] }));
-        }
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+    import { getFirestore, doc, setDoc, getDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+    // 🔴 COLE AQUI AS SUAS CHAVES DO FIREBASE 🔴
+    const firebaseConfig = {
+        
+apiKey: "AIzaSyDLbskQu_4aLzEKSb3a1Gavurg-81REyj8",
+authDomain: "controle-mesada.firebaseapp.com",
+projectId: "controle-mesada",
+storageBucket: "controle-mesada.firebasestorage.app",
+messagingSenderId: "236331896952",
+appId: "1:236331896952:web:512b05ff12854d0feedd8d"
     };
 
-    const getData = (child) => JSON.parse(localStorage.getItem(`mesada_${child}`));
-    const saveData = (child, data) => localStorage.setItem(`mesada_${child}`, JSON.stringify(data));
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    let currentChild = 'be';
+    let currentData = { total: 0, descontos: [] };
+    let unsubscribe = null; // Para controlar o ouvinte em tempo real
+
+    const loadingEl = document.getElementById('loading');
+
+    // Função para escutar mudanças no banco de dados em TEMPO REAL
+    const listenToData = (child) => {
+        if (unsubscribe) unsubscribe(); // Para de escutar o filho anterior
+        loadingEl.style.display = 'block';
+
+        const docRef = doc(db, "mesadas", child);
+        
+        unsubscribe = onSnapshot(docRef, (docSnap) => {
+            loadingEl.style.display = 'none';
+            if (docSnap.exists()) {
+                currentData = docSnap.data();
+            } else {
+                // Se não existir, cria o documento zerado
+                currentData = { total: 0, descontos: [] };
+                setDoc(docRef, currentData);
+            }
+            updateUI();
+        });
+    };
+
+    // Função para salvar dados no Firebase
+    const saveToFirebase = async () => {
+        loadingEl.style.display = 'block';
+        const docRef = doc(db, "mesadas", currentChild);
+        await setDoc(docRef, currentData);
+        loadingEl.style.display = 'none';
+    };
 
     const updateUI = () => {
-        const data = getData(currentChild);
-        
-        // Calcula saldo
-        const totalDescontos = data.descontos.reduce((acc, curr) => acc + curr.valor, 0);
-        const saldo = data.total - totalDescontos;
+        const totalDescontos = currentData.descontos.reduce((acc, curr) => acc + curr.valor, 0);
+        const saldo = currentData.total - totalDescontos;
         
         document.getElementById('display-saldo').innerText = saldo.toFixed(2);
         
-        // Atualiza histórico
         const historyContainer = document.getElementById('history-list');
         historyContainer.innerHTML = '';
         
-        if (data.descontos.length === 0) {
+        if (currentData.descontos.length === 0) {
             historyContainer.innerHTML = '<div style="text-align:center; margin-top:30px; color:#666;">Sem descontos no momento</div>';
         } else {
-            data.descontos.forEach(desc => {
+            currentData.descontos.forEach(desc => {
                 historyContainer.innerHTML += `
                     <div class="history-item">
                         <span>${desc.motivo || 'Desconto'}</span>
@@ -192,57 +135,52 @@
                 `;
             });
         }
-        
-        // Limpa inputs
-        document.getElementById('input-mesada').value = '';
-        document.getElementById('input-motivo').value = '';
-        document.getElementById('input-desconto').value = '';
     };
 
-    const switchTab = (child) => {
-        currentChild = child;
-        document.getElementById('tab-be').classList.remove('active');
+    // Eventos de Clique
+    document.getElementById('tab-be').addEventListener('click', () => {
+        currentChild = 'be';
+        document.getElementById('tab-be').classList.add('active');
         document.getElementById('tab-mari').classList.remove('active');
-        document.getElementById(`tab-${child}`).classList.add('active');
-        updateUI();
-    };
+        listenToData('be');
+    });
 
-    const setMesada = () => {
+    document.getElementById('tab-mari').addEventListener('click', () => {
+        currentChild = 'mari';
+        document.getElementById('tab-mari').classList.add('active');
+        document.getElementById('tab-be').classList.remove('active');
+        listenToData('mari');
+    });
+
+    document.getElementById('btn-gravar').addEventListener('click', () => {
         const valor = parseFloat(document.getElementById('input-mesada').value);
-        if (isNaN(valor) || valor < 0) return alert('Insira um valor válido para a mesada inicial.');
-        
-        const data = getData(currentChild);
-        data.total = valor;
-        saveData(currentChild, data);
-        updateUI();
-    };
+        if (isNaN(valor) || valor < 0) return alert('Insira um valor válido.');
+        currentData.total = valor;
+        saveToFirebase();
+        document.getElementById('input-mesada').value = '';
+    });
 
-    const addDesconto = () => {
+    document.getElementById('btn-subtrair').addEventListener('click', () => {
         const valor = parseFloat(document.getElementById('input-desconto').value);
         const motivo = document.getElementById('input-motivo').value;
-        
-        if (isNaN(valor) || valor <= 0) return alert('Insira um valor válido de desconto.');
+        if (isNaN(valor) || valor <= 0) return alert('Insira um valor de desconto válido.');
+        currentData.descontos.push({ motivo: motivo, valor: valor });
+        saveToFirebase();
+        document.getElementById('input-desconto').value = '';
+        document.getElementById('input-motivo').value = '';
+    });
 
-        const data = getData(currentChild);
-        data.descontos.push({ motivo: motivo, valor: valor });
-        saveData(currentChild, data);
-        updateUI();
-    };
-
-    const resetMesada = () => {
+    document.getElementById('btn-zerar').addEventListener('click', () => {
         if(confirm(`Tem certeza que deseja zerar o mês de ${currentChild.toUpperCase()}?`)) {
-            const data = getData(currentChild);
-            data.total = 0;
-            data.descontos = [];
-            saveData(currentChild, data);
-            updateUI();
+            currentData.total = 0;
+            currentData.descontos = [];
+            saveToFirebase();
         }
-    };
+    });
 
-    // Inicia o app
-    initData();
-    updateUI();
+    // Inicia ouvindo os dados do Bê
+    listenToData('be');
+
 </script>
-
 </body>
 </html>
